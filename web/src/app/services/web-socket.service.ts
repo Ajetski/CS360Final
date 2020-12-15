@@ -46,7 +46,7 @@ export class WebSocketService {
 			console.log(webSocketMessage);
 			if (webSocketMessage.type === 'message') {
 				const msg = webSocketMessage.content as Message;
-				this.messages.unshift(msg);
+				this.messages.push(msg);
 			} else if (webSocketMessage.type === 'login') {
 				const result = webSocketMessage.content as Login;
 				if (result.error != null) {
@@ -72,7 +72,7 @@ export class WebSocketService {
 			content: msg
 		};
 		this.ws.send(JSON.stringify(webSocketMessage));
-		this.messages.unshift(msg);
+		this.messages.push(msg);
 	}
 
 	login(login: Login) {

@@ -11,8 +11,8 @@ wss.on('connection', ws => {
 	ws.on('message', message => {
 		const msgObj = JSON.parse(message);
 		if (msgObj.type === 'message') {
-			messages.unshift(msgObj)
-			connections.filter(conn => conn !== ws).forEach(conn => conn.send(JSON.stringify(msgObj)));
+			messages.push(msgObj)
+			connections.filter(conn => conn !== ws).forEach(conn => conn.send(message));
 		} else if (msgObj.type === 'login') {
 			const { username, password } = msgObj.content;
 			if (users[username] == null || users[username]["password"] !== password) {
@@ -27,13 +27,16 @@ wss.on('connection', ws => {
 					type: 'login',
 					content: {
 						username,
+						displayName: users[username]["displayName"],
 						password
 					}
 				}));
-				connections.push(ws);
-				messages.reverse().forEach(message => {
-					ws.send(JSON.stringify(message));
-				});
+				if (!(ws in connections)) {
+					connections.push(ws);
+					messages.forEach(message => {
+						ws.send(JSON.stringify(message));
+					});
+				}
 			}
 		}
 		else if (msgObj.type === 'register') {
@@ -56,10 +59,12 @@ wss.on('connection', ws => {
 						password
 					}
 				}));
-				connections.push(ws);
-				messages.reverse().forEach(message => {
-					ws.send(JSON.stringify(message));
-				});
+				if (!(ws in connections)) {
+					connections.push(ws);
+					messages.forEach(message => {
+						ws.send(JSON.stringify(message));
+					});
+				}
 			}
 		}
 

@@ -8,19 +8,6 @@
 		</div>
 	</div>
 </div>
-<mat-card class="my-2">
-	<form #f=ngForm>
-		<mat-form-field class="w-100" appearance="outline">
-			<mat-label>Message</mat-label>
-			<textarea rows="5" required minlength="1" maxlength="500" matInput type="text" name="message"
-				[(ngModel)]="currentMessage"></textarea>
-			<mat-error>{{errorMessage}}</mat-error>
-		</mat-form-field>
-		<mat-card-actions class="m-0">
-			<button class="btn btn-primary" type="button" (click)="sendMessage(f)">Send</button>
-		</mat-card-actions>
-	</form>
-</mat-card>
 <mat-paginator class="rounded" [length]="webSocketService.messages.length" [(pageSize)]="pageEvent.pageSize"
 	[pageIndex]="pageEvent.pageIndex" [pageSizeOptions]="pageSizeOptions" (page)="pageEvent = $event">
 </mat-paginator>
@@ -40,3 +27,16 @@
 <mat-paginator class="my-2 rounded" [length]="webSocketService.messages.length" [(pageSize)]="pageEvent.pageSize"
 	[pageSizeOptions]="pageSizeOptions" (page)="pageEvent = $event" [pageIndex]="pageEvent.pageIndex">
 </mat-paginator>
+<mat-card class="my-2">
+	<form #f=ngForm>
+		<mat-form-field class="w-100" appearance="outline">
+			<mat-label>Message</mat-label>
+			<textarea rows="5" required minlength="1" maxlength="500" matInput type="text" name="message"
+				[(ngModel)]="currentMessage"></textarea>
+			<mat-error>{{errorMessage}}</mat-error>
+		</mat-form-field>
+		<mat-card-actions class="m-0">
+			<button class="btn btn-primary" type="button" (click)="sendMessage(f)">Send</button>
+		</mat-card-actions>
+	</form>
+</mat-card>
