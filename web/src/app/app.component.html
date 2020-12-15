@@ -1,0 +1,4 @@
+<div class="container">
+  <app-login *ngIf="!userService.isLoggedIn"></app-login>
+  <app-messages *ngIf="userService.isLoggedIn"></app-messages>
+</div>

@@ -1,0 +1,47 @@
+<div class="w-100">
+	<h2 class="mx-auto pt-5 mt-5" style="width: fit-content;">CS 360 Messanger App</h2>
+</div>
+<mat-card class="w-50 mx-auto">
+	<form #f>
+		<mat-card-content>
+			<ul ngbNav #nav="ngbNav" [(activeId)]="mode" class="nav-pills">
+				<li ngbNavItem="Login">
+					<a ngbNavLink>Login</a>
+				</li>
+				<li ngbNavItem="Register">
+					<a ngbNavLink>Register</a>
+				</li>
+			</ul>
+			<ngb-alert class="w-75 my-3 mx-auto" *ngIf="webSocketService.showErrorMessage" type="danger"
+				(close)="closeErrorAlert()">
+				{{ webSocketService.errorMessage }}
+			</ngb-alert>
+			<mat-form-field appearance="standard" class="w-100">
+				<mat-label>Username</mat-label>
+				<input type="text" name="username" required minlength="4" maxlength="32" [(ngModel)]="username" matInput
+					placeholder="Username" (keyup.enter)="mode === 'Login' ? login(f) : register(f)">
+			</mat-form-field>
+			<mat-form-field *ngIf="mode === 'Register'" appearance="standard" class="w-100">
+				<mat-label>Display Name</mat-label>
+				<input type="text" name="displayName" required minlength="4" maxlength="32" [(ngModel)]="displayName"
+					matInput placeholder="Display Name" (keyup.enter)="register(f)">
+			</mat-form-field>
+			<mat-form-field appearance="standard" class="w-100">
+				<mat-label>Password</mat-label>
+				<input type="password" required minlength="4" maxlength="32" name="password" [(ngModel)]="password"
+					matInput placeholder="Password" (keyup.enter)="mode === 'Login' ? login(f) : register(f)">
+			</mat-form-field>
+			<mat-form-field *ngIf="mode === 'Register'" appearance="standard" class="w-100">
+				<mat-label>Confirm Password</mat-label>
+				<input type="password" required minlength="4" maxlength="32" [pattern]="password" name="password"
+					[(ngModel)]="confirmPassword" matInput placeholder="Password" (keyup.enter)="register(f)">
+			</mat-form-field>
+		</mat-card-content>
+		<mat-card-actions>
+			<button *ngIf="mode === 'Login'" type="button" (click)="login(f)"
+				class="btn btn-primary ml-2">Submit</button>
+			<button *ngIf="mode === 'Register'" type="button" (click)="register(f)"
+				class="btn btn-primary ml-2">Submit</button>
+		</mat-card-actions>
+	</form>
+</mat-card>

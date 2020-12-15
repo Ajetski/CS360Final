@@ -1,0 +1,42 @@
+<div class="row mt-2">
+	<div class="col-8">
+		<h2>CS 360 Messanger App</h2>
+	</div>
+	<div class="col-4">
+		<div class="ml-auto mr-0" style="width: fit-content;">
+			<button type="button" class="btn btn-primary m-auto" (click)="signOut()">Sign Out</button>
+		</div>
+	</div>
+</div>
+<mat-card class="my-2">
+	<form #f=ngForm>
+		<mat-form-field class="w-100" appearance="outline">
+			<mat-label>Message</mat-label>
+			<textarea rows="5" required minlength="1" maxlength="500" matInput type="text" name="message"
+				[(ngModel)]="currentMessage"></textarea>
+			<mat-error>{{errorMessage}}</mat-error>
+		</mat-form-field>
+		<mat-card-actions class="m-0">
+			<button class="btn btn-primary" type="button" (click)="sendMessage(f)">Send</button>
+		</mat-card-actions>
+	</form>
+</mat-card>
+<mat-paginator class="rounded" [length]="webSocketService.messages.length" [(pageSize)]="pageEvent.pageSize"
+	[pageIndex]="pageEvent.pageIndex" [pageSizeOptions]="pageSizeOptions" (page)="pageEvent = $event">
+</mat-paginator>
+<mat-card
+	*ngFor="let msg of webSocketService.messages | slice:pageEvent.pageIndex*pageEvent.pageSize:(pageEvent.pageIndex+1)*pageEvent.pageSize"
+	class="mt-2 rounded">
+	<mat-card-header>
+		<mat-card-title>{{msg.displayName}}</mat-card-title>
+	</mat-card-header>
+	<mat-card-content>
+		<p *ngFor="let line of msg.message.split('\n')">{{line}}</p>
+	</mat-card-content>
+	<mat-card-footer class="mb-0">
+		<mat-card-subtitle class="ml-3">{{msg.timestamp | date:'medium'}}</mat-card-subtitle>
+	</mat-card-footer>
+</mat-card>
+<mat-paginator class="my-2 rounded" [length]="webSocketService.messages.length" [(pageSize)]="pageEvent.pageSize"
+	[pageSizeOptions]="pageSizeOptions" (page)="pageEvent = $event" [pageIndex]="pageEvent.pageIndex">
+</mat-paginator>
