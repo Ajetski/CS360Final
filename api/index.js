@@ -7,7 +7,6 @@ let messages = [];
 let users = {};
 
 wss.on('connection', ws => {
-	console.log('connection started');
 	ws.on('message', message => {
 		const msgObj = JSON.parse(message);
 		if (msgObj.type === 'message') {
@@ -72,6 +71,5 @@ wss.on('connection', ws => {
 });
 
 wss.on('close', ws => {
-	console.log('connection terminated');
 	connections = connections.filter(elem => elem !== ws);
 });
